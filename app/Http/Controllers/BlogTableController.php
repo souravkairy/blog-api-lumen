@@ -6,6 +6,7 @@ use App\Models\blog_table;
 use Illuminate\Http\Request;
 use League\Flysystem\Adapter\Local;
 use Illuminate\Support\Facades\DB;
+use App\Models\Blogs;
 
 class BlogTableController extends Controller
 {
@@ -69,11 +70,44 @@ class BlogTableController extends Controller
             return ["result"=>"Deleted"];
         }
     }
-    public function getBlogByid($id)
+    public function getBlogByidForEdit($id)
     {
-        $match = DB::table('blog_tables')->where('id',$id)->get();
+        $match = Blogs::find($id);
         if ($match) {
             return $match;
+        }
+    }
+    public function updateBlog($id, request $request)
+    {
+        // return $request->all();
+        $name = $request->name;
+        $content = $request->content;
+
+
+
+        // $data['name'] = $request->name;
+        // $data['content'] = $request->content;
+        // $data['user_id'] = $request->user_id;
+        // $data['type'] = 1;
+        $fileNameone = $request->file('image')->getClientOriginalName();
+        $fileName1 =  $fileNameone;
+        $path = 'blogImages' . "/" ;
+        $destinationPath = $path; // upload path
+
+       $request->file('image')->move($destinationPath, $fileName1);
+
+        $image = '/blogImages/' . $fileName1;
+
+
+        $match = DB::table('blog_tables')->where('id',$id)->update(['name'=>$name,'image'=>$image,'content'=>$content]);
+        if ($match) {
+            return ["result"=>"Updated"];
+        }
+        else{
+            return[
+                "status" =>"failed",
+                "msg" =>"Something is worng",
+            ];
         }
     }
 }

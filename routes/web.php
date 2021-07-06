@@ -28,7 +28,8 @@ $router->get('/BlogListByPf/{user_id}', ['middleware' => 'auth','uses' => 'BlogT
 $router->get('/GetAllBlog', ['middleware' => 'auth','uses' => 'BlogTableController@GetAllBlog']);
 
 $router->get('/getBlog/{id}', ['middleware' => 'auth','uses' => 'BlogTableController@getBlog']);
-$router->get('/getBlogByid/{id}', ['middleware' => 'auth','uses' => 'BlogTableController@getBlogByid']);
+$router->get('/getBlogByidForEdit/{id}', ['middleware' => 'auth','uses' => 'BlogTableController@getBlogByidForEdit']);
+$router->post('/updateBlog/{id}', ['middleware' => 'auth','uses' => 'BlogTableController@updateBlog']);
 
 $router->post('/addComment', ['middleware' => 'auth','uses' => 'CommentTableController@addComment']);
 $router->get('/getCommentByBlog/{blog_id}', ['middleware' => 'auth','uses' => 'CommentTableController@getCommentByBlog']);
